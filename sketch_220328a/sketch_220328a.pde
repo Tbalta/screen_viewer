@@ -9,6 +9,7 @@ void setup()
   background(0);
   strokeWeight(10);
   stroke(255);
+  surface.setResizable(true);
   server = new Server(this, port); // Starts a server on port 10002
 }
 
@@ -28,6 +29,9 @@ void draw() {
   
   switch (json.getString("type"))
   {
+    case "init":
+      surface.setSize(json.getInt("width"), json.getInt("height"));
+      break;
     case "line":
        line(json.getInt("x0"),json.getInt("y0"),json.getInt("x1"),json.getInt("y1"));
     break;
@@ -48,6 +52,4 @@ void draw() {
 // to an existing server.
 void serverEvent(Server someServer, Client someClient) {
   println("We have a new client: " + someClient.ip());
-  println(someClient.readString());
-  someClient.write("obitek");
 }
